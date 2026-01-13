@@ -1,0 +1,12 @@
+Wymagania:
+
+- Aplikacja powinna zostać zrealizowana w technologii Electron
+- Aplikacja powinna umożliwiać zadanie rozmiaru planszy (100x100 lub więcej), edycję stanu,  czyszczenie i losowanie nowego stanu, wykonywanie pojedynczego kroku i ciągłą animację stanu automatu (z regulacją prędkości) i po przerwaniu powrót do stanu edycji.
+- Zapis/odczyt stanu (plansza + reguły) do pliku tekstowego.
+- Wyświetlanie statystyki: liczba pokoleń/ile komórek umarło/ile się urodziło)
+- Konfiguracje reguł automatu w nast. postaci po literze B liczb sąsiadów dającej narodziny, a następnie po ukośniku i literze S liczb sąsiadów dającej przeżycie. Reguły Conwaya zapisuje się wtedy jako: B3/S23,
+- Dwupoziomowy zoom (przy powiększeniu widać fragment planszy, ale cała plansza „żyje”)
+- Prosta zmiana prezentacji komórek: kolor+kształt
+- wielopoziomowy lub płynny zoom
+- umieszczanie ciekwych konfiguracji na aktualnej planszy np. na podstawie - https://pl.wikipedia.org/wiki/Gra_w_%C5%BCycie
+- zapis do pliku  obrazu lub sekwencji obrazów lub filmu
