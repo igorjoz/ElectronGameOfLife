@@ -149,31 +149,31 @@ function FilePanel() {
           onClick={handleSave}
           disabled={state.isRunning}
         >
-          💾 Save
+          Save
         </button>
         <button 
           className="btn btn-secondary" 
           onClick={handleLoad}
           disabled={state.isRunning}
         >
-          📂 Load
+          Load
         </button>
       </div>
       
       <div className="btn-group" style={{ marginBottom: '12px' }}>
         <button className="btn btn-secondary" onClick={handleExportImage}>
-          🖼 Export PNG
+          Export PNG
         </button>
       </div>
       
       <div className="btn-group">
         {!isRecording ? (
           <button className="btn btn-primary" onClick={handleStartRecording}>
-            ⏺ Record
+            Record
           </button>
         ) : (
           <button className="btn btn-warning" onClick={handleStopRecording}>
-            ⏹ Stop & Save
+            Stop Recording
           </button>
         )}
       </div>

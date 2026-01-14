@@ -31,7 +31,7 @@ function PatternsPanel() {
             className="btn btn-secondary btn-full"
             onClick={handleCancelPlacement}
           >
-            ✕ Cancel Placement
+            Cancel
           </button>
         </div>
       )}

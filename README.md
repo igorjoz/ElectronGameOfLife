@@ -1,80 +1,44 @@
-# Electron Game of Life
+# Game of Life
 
-A full-featured Conway's Game of Life simulator built with Electron and React.
+Conway's Game of Life in Electron + React. Supports large boards (up to 1000x1000), custom rules in B/S notation, and a few classic patterns.
 
-## Features
-
-- **Large Board Support**: Up to 1000×1000 cells with Web Worker for smooth performance
-- **Configurable Rules**: B/S notation (e.g., B3/S23 for Conway's rules) with presets
-- **Smooth Zoom & Pan**: Mouse wheel zoom, drag to pan
-- **Pattern Library**: 6 classic patterns (Glider, Blinker, Pulsar, Gosper Gun, LWSS, Block)
-- **Visual Customization**: Cell color, shape (square/circle/diamond), grid toggle
-- **Statistics**: Generation count, population, births, deaths
-- **File Operations**: Save/load game state to JSON
-- **Export**: Single PNG image or frame sequence recording
-- **Toroidal Boundary**: Cells wrap around edges
-
-## Installation
+## Quick start
 
 ```bash
 npm install
-```
-
-## Development
-
-```bash
 npm run dev
 ```
 
-This starts Vite dev server and Electron in development mode.
+## Features
 
-## Build
-
-```bash
-npm run build:electron
-```
+- Web Worker for smooth simulation on large boards
+- Configurable rules (B/S notation) with presets
+- Zoom and pan with mouse
+- Save/load state as JSON
+- Export frames as PNG
 
 ## Controls
 
-| Action | Control |
-|--------|---------|
-| Toggle cell | Left click |
-| Pan view | Right click + drag / Middle click + drag / Shift + Left drag |
-| Zoom | Mouse wheel |
-| Place pattern | Select pattern, then click on board |
+- Left click: toggle cell
+- Right/middle drag: pan
+- Mouse wheel: zoom
+- Select a pattern from the panel, then click to place
 
-## Keyboard Shortcuts
+## B/S notation
 
-- **Space**: Start/Stop simulation (when implemented)
+Rules like `B3/S23` mean: a cell is born with 3 neighbors, survives with 2 or 3.
 
-## File Format
-
-Game state is saved as JSON:
-
-```json
-{
-  "version": "1.0",
-  "width": 100,
-  "height": 100,
-  "rules": "B3/S23",
-  "generation": 0,
-  "cells": ["10,10", "11,10", "12,10"],
-  "savedAt": "2026-01-13T12:00:00.000Z"
-}
-```
-
-## B/S Notation
-
-Rules are specified as `B<digits>/S<digits>`:
-- **B**: Number of neighbors required for a cell to be born
-- **S**: Number of neighbors required for a cell to survive
-
-Examples:
-- `B3/S23` - Conway's Game of Life
-- `B36/S23` - HighLife (with replicators)
+Some presets:
+- `B3/S23` - Conway's Life
+- `B36/S23` - HighLife
 - `B3678/S34678` - Day & Night
+
+## TODO
+
+- [ ] RLE pattern import
+- [ ] Keyboard shortcuts
+- [ ] Better mobile support
 
 ## License
 
 MIT
-Game of Life made in Electron

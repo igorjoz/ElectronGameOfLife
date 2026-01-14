@@ -1,10 +1,4 @@
-// B/S notation parser and utilities
-
-/**
- * Parse B/S notation string into birth and survival arrays
- * @param {string} rulesString - Rules in B/S notation (e.g., "B3/S23")
- * @returns {{ birth: number[], survival: number[] }}
- */
+// B/S notation: B3/S23 means birth with 3 neighbors, survive with 2-3
 export function parseRules(rulesString) {
   const normalized = rulesString.toUpperCase().replace(/\s/g, '');
   const match = normalized.match(/^B(\d*)\/S(\d*)$/);
@@ -20,31 +14,17 @@ export function parseRules(rulesString) {
   return { birth, survival };
 }
 
-/**
- * Convert birth and survival arrays to B/S notation string
- * @param {number[]} birth - Array of neighbor counts for birth
- * @param {number[]} survival - Array of neighbor counts for survival
- * @returns {string}
- */
 export function formatRules(birth, survival) {
   const birthStr = birth.sort((a, b) => a - b).join('');
   const survivalStr = survival.sort((a, b) => a - b).join('');
   return `B${birthStr}/S${survivalStr}`;
 }
 
-/**
- * Validate rules string
- * @param {string} rulesString - Rules in B/S notation
- * @returns {boolean}
- */
 export function validateRules(rulesString) {
   const normalized = rulesString.toUpperCase().replace(/\s/g, '');
   return /^B[0-8]*\/S[0-8]*$/.test(normalized);
 }
 
-/**
- * Common rule presets
- */
 export const rulePresets = [
   { name: 'Conway (Life)', rules: 'B3/S23', description: 'Classic Game of Life' },
   { name: 'HighLife', rules: 'B36/S23', description: 'Life with replicators' },

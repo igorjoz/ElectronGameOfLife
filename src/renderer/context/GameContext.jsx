@@ -55,38 +55,12 @@ function parseRules(rulesString) {
   return { birth, survival };
 }
 
-// Action types
-const ActionTypes = {
-  SET_CELL: 'SET_CELL',
-  TOGGLE_CELL: 'TOGGLE_CELL',
-  SET_CELLS: 'SET_CELLS',
-  CLEAR_BOARD: 'CLEAR_BOARD',
-  RANDOMIZE: 'RANDOMIZE',
-  SET_RUNNING: 'SET_RUNNING',
-  SET_SPEED: 'SET_SPEED',
-  SET_GENERATION: 'SET_GENERATION',
-  UPDATE_STATS: 'UPDATE_STATS',
-  SET_RULES: 'SET_RULES',
-  SET_BOARD_SIZE: 'SET_BOARD_SIZE',
-  SET_ZOOM: 'SET_ZOOM',
-  SET_OFFSET: 'SET_OFFSET',
-  SET_CELL_COLOR: 'SET_CELL_COLOR',
-  SET_CELL_SHAPE: 'SET_CELL_SHAPE',
-  SET_GRID_COLOR: 'SET_GRID_COLOR',
-  TOGGLE_GRID: 'TOGGLE_GRID',
-  SELECT_PATTERN: 'SELECT_PATTERN',
-  PLACE_PATTERN: 'PLACE_PATTERN',
-  LOAD_STATE: 'LOAD_STATE',
-  SET_RECORDING: 'SET_RECORDING',
-  ADD_FRAME: 'ADD_FRAME',
-  CLEAR_FRAMES: 'CLEAR_FRAMES',
-  STEP_COMPLETE: 'STEP_COMPLETE',
-};
+
 
 // Reducer
 function gameReducer(state, action) {
   switch (action.type) {
-    case ActionTypes.SET_CELL: {
+    case 'set-cell': {
       const newCells = new Set(state.cells);
       const key = `${action.x},${action.y}`;
       if (action.alive) {
@@ -97,7 +71,7 @@ function gameReducer(state, action) {
       return { ...state, cells: newCells, population: newCells.size };
     }
     
-    case ActionTypes.TOGGLE_CELL: {
+    case 'toggle-cell': {
       const newCells = new Set(state.cells);
       const key = `${action.x},${action.y}`;
       if (newCells.has(key)) {
@@ -108,12 +82,12 @@ function gameReducer(state, action) {
       return { ...state, cells: newCells, population: newCells.size };
     }
     
-    case ActionTypes.SET_CELLS: {
+    case 'set-cells': {
       const newCells = new Set(action.cells);
       return { ...state, cells: newCells, population: newCells.size };
     }
     
-    case ActionTypes.CLEAR_BOARD: {
+    case 'clear': {
       return {
         ...state,
         cells: new Set(),
@@ -125,7 +99,7 @@ function gameReducer(state, action) {
       };
     }
     
-    case ActionTypes.RANDOMIZE: {
+    case 'randomize': {
       const newCells = new Set();
       const density = action.density || 0.3;
       for (let y = 0; y < state.height; y++) {
@@ -145,16 +119,16 @@ function gameReducer(state, action) {
       };
     }
     
-    case ActionTypes.SET_RUNNING:
+    case 'set-running':
       return { ...state, isRunning: action.isRunning };
     
-    case ActionTypes.SET_SPEED:
+    case 'set-speed':
       return { ...state, speed: action.speed };
     
-    case ActionTypes.SET_GENERATION:
+    case 'set-generation':
       return { ...state, generation: action.generation };
     
-    case ActionTypes.UPDATE_STATS:
+    case 'update-stats':
       return {
         ...state,
         generation: action.generation,
@@ -163,13 +137,12 @@ function gameReducer(state, action) {
         population: action.population,
       };
     
-    case ActionTypes.SET_RULES: {
+    case 'set-rules': {
       const parsedRules = parseRules(action.rules);
       return { ...state, rules: action.rules, parsedRules };
     }
     
-    case ActionTypes.SET_BOARD_SIZE: {
-      // Trim cells that are out of bounds
+    case 'set-board-size': {
       const newCells = new Set();
       state.cells.forEach(key => {
         const [x, y] = key.split(',').map(Number);
@@ -186,28 +159,28 @@ function gameReducer(state, action) {
       };
     }
     
-    case ActionTypes.SET_ZOOM:
+    case 'set-zoom':
       return { ...state, zoom: Math.max(0.1, Math.min(10, action.zoom)) };
     
-    case ActionTypes.SET_OFFSET:
+    case 'set-offset':
       return { ...state, offsetX: action.offsetX, offsetY: action.offsetY };
     
-    case ActionTypes.SET_CELL_COLOR:
+    case 'set-cell-color':
       return { ...state, cellColor: action.color };
     
-    case ActionTypes.SET_CELL_SHAPE:
+    case 'set-cell-shape':
       return { ...state, cellShape: action.shape };
     
-    case ActionTypes.SET_GRID_COLOR:
+    case 'set-grid-color':
       return { ...state, gridColor: action.color };
     
-    case ActionTypes.TOGGLE_GRID:
+    case 'toggle-grid':
       return { ...state, showGrid: !state.showGrid };
     
-    case ActionTypes.SELECT_PATTERN:
+    case 'select-pattern':
       return { ...state, selectedPattern: action.pattern };
     
-    case ActionTypes.PLACE_PATTERN: {
+    case 'place-pattern': {
       if (!action.pattern) return state;
       
       const newCells = new Set(state.cells);
@@ -219,7 +192,7 @@ function gameReducer(state, action) {
       return { ...state, cells: newCells, population: newCells.size, selectedPattern: null };
     }
     
-    case ActionTypes.LOAD_STATE: {
+    case 'load-state': {
       const { width, height, rules, cells } = action.data;
       const cellSet = new Set(cells);
       const parsedRules = parseRules(rules);
@@ -238,16 +211,16 @@ function gameReducer(state, action) {
       };
     }
     
-    case ActionTypes.SET_RECORDING:
+    case 'set-recording':
       return { ...state, isRecording: action.isRecording };
     
-    case ActionTypes.ADD_FRAME:
+    case 'add-frame':
       return { ...state, recordedFrames: [...state.recordedFrames, action.frame] };
     
-    case ActionTypes.CLEAR_FRAMES:
+    case 'clear-frames':
       return { ...state, recordedFrames: [] };
     
-    case ActionTypes.STEP_COMPLETE: {
+    case 'step-complete': {
       return {
         ...state,
         cells: new Set(action.cells),
@@ -401,7 +374,7 @@ export function GameProvider({ children }) {
       
       if (type === 'step-result') {
         dispatch({ 
-          type: ActionTypes.STEP_COMPLETE, 
+          type: 'step-complete', 
           cells: data.cells, 
           births: data.births, 
           deaths: data.deaths 
@@ -503,87 +476,87 @@ export function GameProvider({ children }) {
   // Action creators
   const actions = {
     toggleCell: useCallback((x, y) => {
-      dispatch({ type: ActionTypes.TOGGLE_CELL, x, y });
+      dispatch({ type: 'toggle-cell', x, y });
     }, []),
     
     setCell: useCallback((x, y, alive) => {
-      dispatch({ type: ActionTypes.SET_CELL, x, y, alive });
+      dispatch({ type: 'set-cell', x, y, alive });
     }, []),
     
     setCells: useCallback((cells) => {
-      dispatch({ type: ActionTypes.SET_CELLS, cells });
+      dispatch({ type: 'set-cells', cells });
     }, []),
     
     clearBoard: useCallback(() => {
-      dispatch({ type: ActionTypes.CLEAR_BOARD });
+      dispatch({ type: 'clear' });
     }, []),
     
     randomize: useCallback((density = 0.3) => {
-      dispatch({ type: ActionTypes.RANDOMIZE, density });
+      dispatch({ type: 'randomize', density });
     }, []),
     
     setRunning: useCallback((isRunning) => {
-      dispatch({ type: ActionTypes.SET_RUNNING, isRunning });
+      dispatch({ type: 'set-running', isRunning });
     }, []),
     
     setSpeed: useCallback((speed) => {
-      dispatch({ type: ActionTypes.SET_SPEED, speed });
+      dispatch({ type: 'set-speed', speed });
     }, []),
     
     setRules: useCallback((rules) => {
-      dispatch({ type: ActionTypes.SET_RULES, rules });
+      dispatch({ type: 'set-rules', rules });
     }, []),
     
     setBoardSize: useCallback((width, height) => {
-      dispatch({ type: ActionTypes.SET_BOARD_SIZE, width, height });
+      dispatch({ type: 'set-board-size', width, height });
     }, []),
     
     setZoom: useCallback((zoom) => {
-      dispatch({ type: ActionTypes.SET_ZOOM, zoom });
+      dispatch({ type: 'set-zoom', zoom });
     }, []),
     
     setOffset: useCallback((offsetX, offsetY) => {
-      dispatch({ type: ActionTypes.SET_OFFSET, offsetX, offsetY });
+      dispatch({ type: 'set-offset', offsetX, offsetY });
     }, []),
     
     setCellColor: useCallback((color) => {
-      dispatch({ type: ActionTypes.SET_CELL_COLOR, color });
+      dispatch({ type: 'set-cell-color', color });
     }, []),
     
     setCellShape: useCallback((shape) => {
-      dispatch({ type: ActionTypes.SET_CELL_SHAPE, shape });
+      dispatch({ type: 'set-cell-shape', shape });
     }, []),
     
     setGridColor: useCallback((color) => {
-      dispatch({ type: ActionTypes.SET_GRID_COLOR, color });
+      dispatch({ type: 'set-grid-color', color });
     }, []),
     
     toggleGrid: useCallback(() => {
-      dispatch({ type: ActionTypes.TOGGLE_GRID });
+      dispatch({ type: 'toggle-grid' });
     }, []),
     
     selectPattern: useCallback((pattern) => {
-      dispatch({ type: ActionTypes.SELECT_PATTERN, pattern });
+      dispatch({ type: 'select-pattern', pattern });
     }, []),
     
     placePattern: useCallback((x, y, pattern) => {
-      dispatch({ type: ActionTypes.PLACE_PATTERN, x, y, pattern });
+      dispatch({ type: 'place-pattern', x, y, pattern });
     }, []),
     
     loadState: useCallback((data) => {
-      dispatch({ type: ActionTypes.LOAD_STATE, data });
+      dispatch({ type: 'load-state', data });
     }, []),
     
     setRecording: useCallback((isRecording) => {
-      dispatch({ type: ActionTypes.SET_RECORDING, isRecording });
+      dispatch({ type: 'set-recording', isRecording });
     }, []),
     
     addFrame: useCallback((frame) => {
-      dispatch({ type: ActionTypes.ADD_FRAME, frame });
+      dispatch({ type: 'add-frame', frame });
     }, []),
     
     clearFrames: useCallback(() => {
-      dispatch({ type: ActionTypes.CLEAR_FRAMES });
+      dispatch({ type: 'clear-frames' });
     }, []),
     
     step: doStep,

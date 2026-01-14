@@ -4,33 +4,18 @@ import { useGame } from '../context/GameContext';
 function ControlPanel() {
   const { state, actions } = useGame();
   
-  const handleStart = () => {
-    actions.setRunning(true);
+  const start = () => actions.setRunning(true);
+  const stop = () => actions.setRunning(false);
+  
+  const step = () => {
+    if (!state.isRunning) actions.step();
   };
   
-  const handleStop = () => {
-    actions.setRunning(false);
-  };
+  const clear = () => actions.clearBoard();
+  const randomize = () => actions.randomize(0.3);
+  const onSpeedChange = (e) => actions.setSpeed(parseInt(e.target.value, 10));
   
-  const handleStep = () => {
-    if (!state.isRunning) {
-      actions.step();
-    }
-  };
-  
-  const handleClear = () => {
-    actions.clearBoard();
-  };
-  
-  const handleRandomize = () => {
-    actions.randomize(0.3);
-  };
-  
-  const handleSpeedChange = (e) => {
-    actions.setSpeed(parseInt(e.target.value, 10));
-  };
-  
-  const handleResetView = () => {
+  const resetView = () => {
     actions.setZoom(1);
     actions.setOffset(0, 0);
   };
@@ -41,39 +26,39 @@ function ControlPanel() {
       
       <div className="btn-group" style={{ marginBottom: '12px' }}>
         {!state.isRunning ? (
-          <button className="btn btn-success" onClick={handleStart}>
-            ▶ Start
+          <button className="btn btn-success" onClick={start}>
+            Start
           </button>
         ) : (
-          <button className="btn btn-warning" onClick={handleStop}>
-            ⏸ Stop
+          <button className="btn btn-warning" onClick={stop}>
+            Stop
           </button>
         )}
         
         <button 
           className="btn btn-secondary" 
-          onClick={handleStep}
+          onClick={step}
           disabled={state.isRunning}
         >
-          ⏭ Step
+          Step
         </button>
       </div>
       
       <div className="btn-group" style={{ marginBottom: '12px' }}>
         <button 
           className="btn btn-secondary" 
-          onClick={handleClear}
+          onClick={clear}
           disabled={state.isRunning}
         >
-          🗑 Clear
+          Clear
         </button>
         
         <button 
           className="btn btn-secondary" 
-          onClick={handleRandomize}
+          onClick={randomize}
           disabled={state.isRunning}
         >
-          🎲 Random
+          Random
         </button>
       </div>
       
@@ -87,7 +72,7 @@ function ControlPanel() {
           min="1"
           max="30"
           value={state.speed}
-          onChange={handleSpeedChange}
+          onChange={onSpeedChange}
         />
         <div className="speed-display">
           <span>1</span>
@@ -97,10 +82,10 @@ function ControlPanel() {
       
       <button 
         className="btn btn-secondary btn-full" 
-        onClick={handleResetView}
+        onClick={resetView}
         style={{ marginTop: '12px' }}
       >
-        🔄 Reset View
+        Reset View
       </button>
     </div>
   );

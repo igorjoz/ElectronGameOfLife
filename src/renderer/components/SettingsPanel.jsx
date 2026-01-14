@@ -9,7 +9,7 @@ function SettingsPanel() {
   const [tempRules, setTempRules] = useState(state.rules);
   const [rulesError, setRulesError] = useState('');
   
-  const handleSizeChange = () => {
+  const applySize = () => {
     const w = Math.max(10, Math.min(1000, parseInt(tempWidth, 10) || 100));
     const h = Math.max(10, Math.min(1000, parseInt(tempHeight, 10) || 100));
     setTempWidth(w);
@@ -17,7 +17,7 @@ function SettingsPanel() {
     actions.setBoardSize(w, h);
   };
   
-  const handleRulesChange = (e) => {
+  const onRulesInput = (e) => {
     const value = e.target.value.toUpperCase();
     setTempRules(value);
     
@@ -29,7 +29,7 @@ function SettingsPanel() {
     }
   };
   
-  const handlePresetChange = (e) => {
+  const onPresetSelect = (e) => {
     const preset = rulePresets.find(p => p.rules === e.target.value);
     if (preset) {
       setTempRules(preset.rules);
@@ -38,21 +38,10 @@ function SettingsPanel() {
     }
   };
   
-  const handleColorChange = (e) => {
-    actions.setCellColor(e.target.value);
-  };
-  
-  const handleShapeChange = (e) => {
-    actions.setCellShape(e.target.value);
-  };
-  
-  const handleGridColorChange = (e) => {
-    actions.setGridColor(e.target.value);
-  };
-  
-  const handleToggleGrid = () => {
-    actions.toggleGrid();
-  };
+  const onColorPick = (e) => actions.setCellColor(e.target.value);
+  const onShapeSelect = (e) => actions.setCellShape(e.target.value);
+  const onGridColorPick = (e) => actions.setGridColor(e.target.value);
+  const toggleGrid = () => actions.toggleGrid();
   
   return (
     <div className="panel">
@@ -88,7 +77,7 @@ function SettingsPanel() {
         </div>
         <button 
           className="btn btn-secondary btn-full"
-          onClick={handleSizeChange}
+          onClick={applySize}
           disabled={state.isRunning}
           style={{ marginTop: '8px' }}
         >
@@ -103,7 +92,7 @@ function SettingsPanel() {
           type="text"
           className="form-input"
           value={tempRules}
-          onChange={handleRulesChange}
+          onChange={onRulesInput}
           placeholder="B3/S23"
           disabled={state.isRunning}
         />
@@ -119,7 +108,7 @@ function SettingsPanel() {
         <select
           className="form-select"
           value={state.rules}
-          onChange={handlePresetChange}
+          onChange={onPresetSelect}
           disabled={state.isRunning}
         >
           {rulePresets.map(preset => (
@@ -138,7 +127,7 @@ function SettingsPanel() {
             type="color"
             className="color-picker"
             value={state.cellColor}
-            onChange={handleColorChange}
+            onChange={onColorPick}
           />
           <span>{state.cellColor}</span>
         </div>
@@ -149,7 +138,7 @@ function SettingsPanel() {
         <select
           className="form-select"
           value={state.cellShape}
-          onChange={handleShapeChange}
+          onChange={onShapeSelect}
         >
           <option value="square">Square</option>
           <option value="circle">Circle</option>
@@ -164,11 +153,11 @@ function SettingsPanel() {
             type="color"
             className="color-picker"
             value={state.gridColor}
-            onChange={handleGridColorChange}
+            onChange={onGridColorPick}
           />
           <button
             className="btn btn-secondary"
-            onClick={handleToggleGrid}
+            onClick={toggleGrid}
             style={{ marginLeft: 'auto' }}
           >
             {state.showGrid ? 'Hide Grid' : 'Show Grid'}

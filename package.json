@@ -1,7 +1,7 @@
 {
   "name": "electron-game-of-life",
   "version": "1.0.0",
-  "description": "Conway's Game of Life simulator with Electron and React",
+  "description": "Game of Life in Electron",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",
@@ -17,7 +17,7 @@
     "cellular-automaton",
     "react"
   ],
-  "author": "",
+  "author": "Igor Jozefowicz",
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^18.2.0",
